@@ -2,10 +2,10 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const flightRoutes = require('./routes/flightRoutes');
 require('dotenv').config();
 
 const connectDB = require('./config/db'); // Import the database connection
-const flightRoutes = require('./routes/flightRoutes'); // Import the routes (example)
 
 // Initialize Express
 const app = express();
