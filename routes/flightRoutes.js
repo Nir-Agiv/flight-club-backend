@@ -2,6 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const flightController = require('../controllers/flightController');
+const Flight = require('../models/Flight');
 
 
 // GET all flights
@@ -18,5 +19,25 @@ router.put('/:id', flightController.updateFlight);
 
 // DELETE a flight by ID
 router.delete('/:id', flightController.deleteFlight);
+
+// Flight search endpoint
+router.post('/search', async (req, res) => {
+    const { departureCity, destinationCity, departureDate, returnDate, passengers } = req.body;
+    try {
+      // Query for flights based on search criteria
+      const flights = await Flight.find({
+        departureCity,
+        destinationCity,
+        departureDate,
+        returnDate,
+        passengers: { $gte: passengers }
+      });
+  
+      res.json(flights);
+    } catch (error) {
+      console.error('Error fetching flights:', error);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  });
 
 module.exports = router;
