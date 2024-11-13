@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 const flightController = require('../controllers/flightController');
 const Flight = require('../models/Flight');
-
+const Book = require('../models/Book');
 
 // GET all flights
 router.get('/', flightController.getAllFlights);
@@ -24,20 +24,31 @@ router.delete('/:id', flightController.deleteFlight);
 router.post('/search', async (req, res) => {
     const { departureCity, destinationCity, departureDate, returnDate, passengers } = req.body;
     try {
-      // Query for flights based on search criteria
-      const flights = await Flight.find({
-        departureCity,
-        destinationCity,
-        departureDate,
-        returnDate,
-        passengers: { $gte: passengers }
-      });
-  
-      res.json(flights);
+        // Query for flights based on search criteria
+        const flights = await Flight.find({
+            departureCity,
+            destinationCity,
+            departureDate,
+            returnDate,
+            passengers: { $gte: passengers }
+        });
+
+        res.json(flights);
     } catch (error) {
-      console.error('Error fetching flights:', error);
-      res.status(500).json({ error: 'Internal server error' });
+        console.error('Error fetching flights:', error);
+        res.status(500).json({ error: 'Internal server error' });
     }
-  });
+});
+
+router.post('/bookings', async (req, res) => {
+    try {
+        const booking = new Book(req.body);
+        const savedBooking = await booking.save();
+        console.log("ENTER TRY");
+        res.status(201).json(savedBooking);
+    } catch (error) {
+        res.status(500).json({ message: 'Booking failed', error });
+    }
+});
 
 module.exports = router;
