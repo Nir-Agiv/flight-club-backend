@@ -1,0 +1,24 @@
+
+
+services: # Define your containers
+  backend:
+    build: . # Build the server from the Dockerfile in the current directory
+    ports:
+      - "5000:5000" # Map container port 3000 to localhost:3000
+    environment: # Environment variables for your server
+      - DB_HOST=mongodb
+      - DB_PORT=27017
+      - DB_NAME=flightclub
+    depends_on: # Ensure MongoDB starts before the backend
+      - mongodb
+
+  mongodb:
+    image: mongo:6 # Use the official MongoDB image
+    container_name: mongo-db # Name the database container
+    ports:
+      - "27017:27017" # Expose MongoDB port
+    volumes:
+      - mongodb_data:/data/db # Store data persistently
+
+volumes: # Define a persistent volume for MongoDB data
+  mongodb_data:

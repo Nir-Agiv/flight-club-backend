@@ -1,8 +1,98 @@
 
-// config/db.js
+// // config/db.js
+// const mongoose = require('mongoose');
+// const Flight = require('../models/Flight');
+// // Use environment variables to get database details
+// const dbHost = process.env.DB_HOST || 'localhost';
+// const dbPort = process.env.DB_PORT || '27017';
+// const dbName = process.env.DB_NAME || 'flight-club';
+
+// // Construct the MongoDB URI
+// const uri = `mongodb://${dbHost}:${dbPort}/${dbName}`;
+
+
+// async function populateDB() {
+//   const initialFlights = [
+//     {
+//       airline: 'Airline A',
+//       flightNumber: 'A100',
+//       departureCity: 'New York',
+//       destinationCity: 'London',
+//       departureDate: new Date('2024-12-01'),
+//       returnDate: new Date('2024-12-15'),
+//       price: 500,
+//       passengers: 200,
+//     },
+//     {
+//       airline: 'Airline B',
+//       flightNumber: 'B200',
+//       departureCity: 'Los Angeles',
+//       destinationCity: 'Tokyo',
+//       departureDate: new Date('2024-11-25'),
+//       returnDate: new Date('2024-12-10'),
+//       price: 750,
+//       passengers: 180,
+//     },
+//     // Add more flight objects as needed
+//   ];
+
+//   try {
+//     const count = await Flight.countDocuments();
+//     if (count === 0) {
+//       await Flight.insertMany(initialFlights);
+//       console.log('Database populated with initial flights.');
+//     } else {
+//       console.log('Database already contains flight data.');
+//     }
+//   } catch (error) {
+//     console.error('Error populating database:', error);
+//   }
+// }
+
+// // Connect to MongoDB
+// mongoose.connect(uri, {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true,
+// });
+
+// mongoose.connection.on('connected', () => {
+//   populateDB();
+//   console.log('Connected to MongoDB');
+// });
+
+// mongoose.connection.on('error', (err) => {
+//   console.error('MongoDB connection error:', err);
+// });
+// module.exports = connect();
+
+
+
+
 const mongoose = require('mongoose');
 const Flight = require('../models/Flight');
 
+// Use environment variables to get database details
+const dbHost = process.env.DB_HOST || 'localhost';
+const dbPort = process.env.DB_PORT || '27017';
+const dbName = process.env.DB_NAME || 'flight-club';
+const uri = `mongodb://${dbHost}:${dbPort}/${dbName}`;
+
+// פונקציה לחיבור למסד הנתונים
+async function connectDB() {
+  try {
+    await mongoose.connect(uri); // אין צורך בפרמטרים
+    console.log('Connected to MongoDB');
+
+    // Populate the database with initial data
+    await populateDB();
+  } catch (error) {
+    console.error('Error connecting to MongoDB:', error);
+    process.exit(1); // Exit process with failure
+  }
+}
+
+
+// Function to populate the database with initial data
 async function populateDB() {
   const initialFlights = [
     {
@@ -25,7 +115,6 @@ async function populateDB() {
       price: 750,
       passengers: 180,
     },
-    // Add more flight objects as needed
   ];
 
   try {
@@ -40,16 +129,5 @@ async function populateDB() {
     console.error('Error populating database:', error);
   }
 }
-
-const connectDB = async () => {
-  mongoose.connect('mongodb://localhost:27017/flightclub')
-  .then(() => {
-    console.log('MongoDB connected');
-    populateDB();
-  })
-  .catch((err) => {
-    console.error(err);
-  });
-};
 
 module.exports = connectDB;
