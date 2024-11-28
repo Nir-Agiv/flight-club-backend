@@ -6,7 +6,7 @@ const Flight = require('../models/Flight');
 const Book = require('../models/Book');
 
 // GET all flights
-router.get('/', flightController.getAllFlights);
+router.get('/flights', flightController.getAllFlights);
 
 // GET a flight by ID
 router.get('/:id', flightController.getFlightById);

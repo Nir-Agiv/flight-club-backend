@@ -4,22 +4,27 @@ const Flight = require('../models/Flight');
 // Use environment variables to get database details
 const dbHost = process.env.DB_HOST || 'localhost';
 const dbPort = process.env.DB_PORT || '27017';
-const dbName = process.env.DB_NAME || 'flight-club';
-const uri = `mongodb://${dbHost}:${dbPort}/${dbName}`;
+const dbName = process.env.DB_NAME || 'flightclub';
+
+const mongoURI = `mongodb://${dbHost}:${dbPort}/${dbName}`;
+
 
 // פונקציה לחיבור למסד הנתונים
-async function connectDB() {
+const connectDB = async () => {
   try {
-    await mongoose.connect(uri); // אין צורך בפרמטרים
-    console.log('Connected to MongoDB');
-
-    // Populate the database with initial data
+    await mongoose.connect(process.env.MONGO_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      serverSelectionTimeoutMS: 30000, // 30 seconds
+    });
+    console.log('MongoDB connected');
     await populateDB();
   } catch (error) {
-    console.error('Error connecting to MongoDB:', error);
-    process.exit(1); // Exit process with failure
+    console.error(`Error connecting to MongoDB: ${error.message}`);
+    process.exit(1);
   }
-}
+};
+
 
 
 // Function to populate the database with initial data

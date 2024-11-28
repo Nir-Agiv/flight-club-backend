@@ -21,7 +21,13 @@ connectDB();
 app.use('/api/flights', flightRoutes); // Use flight routes for `/api/flights` endpoint
 
 // Start the Server
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+let server; // Declare server variable
+
+if (process.env.NODE_ENV !== 'test') {
+  const PORT = process.env.PORT || 5000;
+  server = app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+  });
+}
+
+module.exports = { app, server };
