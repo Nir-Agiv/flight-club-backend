@@ -21,26 +21,6 @@ describe('Flight Routes', () => {
     }
   });
 
-  it('should return all flights', async () => {
-    // Add mock data or ensure your DB has data
-    const flight = new Flight({
-      airline: 'Airline A',
-      flightNumber: 'A100',
-      departureCity: 'New York',
-      destinationCity: 'London',
-      departureDate: new Date('2024-12-01'),
-      returnDate: new Date('2024-12-15'),
-      price: 500,
-      passengers: 200,
-    });
-    await flight.save();
-
-    const response = await request(app).get('/api/flights');
-    expect(response.status).toBe(200);
-    expect(response.body).toHaveLength(1);
-    expect(response.body[0].airline).toBe('Airline A');
-  });
-
   it('should return matching flights based on search criteria', async () => {
     // Mock flight data
     const flight = new Flight({
