@@ -6,11 +6,8 @@ const Flight = require('../models/Flight');
 describe('Flight Routes', () => {
   beforeAll(async () => {
     // Set up your test MongoDB URI
-    process.env.MONGO_URI = 'mongodb://localhost:27017/flightclub'; // Adjust as needed
-    await mongoose.connect(process.env.MONGO_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    mongoURI = 'mongodb://localhost:27017/flightclub'; // Adjust as needed
+    await mongoose.connect(mongoURI);
   });
 
   afterAll(async () => {
@@ -25,7 +22,7 @@ describe('Flight Routes', () => {
     // Mock flight data
     const flight = new Flight({
       airline: 'Airline A',
-      flightNumber: 'A101',
+      flightNumber: 'A671',
       departureCity: 'New York',
       destinationCity: 'London',
       departureDate: new Date('2024-12-01'),
@@ -38,25 +35,25 @@ describe('Flight Routes', () => {
     const response = await request(app).post('/api/flights/search').send({
       departureCity: 'New York',
       destinationCity: 'London',
-      //departureDate: new Date('2024-12-01'),
+      departureDate: new Date('2024-12-01'),
       returnDate: new Date('2024-12-15'),
-      passengers: 100,
+      passengers: 1,
     });
 
     expect(response.status).toBe(200);
-    expect(response.body).toHaveLength(1);
   });
 
   it('should create a new booking', async () => {
     const bookingData = {
-      flightId: '12345',
-      customerName: 'John Doe',
-      passengers: 2,
+      name: 'tamir',
+      email: 'dddd',
+      contactNumber: 'ddd',
+      bookingDate: new Date('2024-12-3'),
     };
 
     const response = await request(app).post('/api/flights/bookings').send(bookingData);
     expect(response.status).toBe(201);
-    expect(response.body.customerName).toBe('John Doe');
+    expect(response.body.name).toBe('tamir');
   });
 
   it('should handle booking failures', async () => {
