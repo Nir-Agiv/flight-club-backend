@@ -22,7 +22,7 @@ describe('Flight Routes', () => {
     // Mock flight data
     const flight = new Flight({
       airline: 'Airline A',
-      flightNumber: 'A871',
+      flightNumber: 'A971',
       departureCity: 'New York',
       destinationCity: 'London',
       departureDate: new Date('2024-12-01'),
@@ -45,7 +45,7 @@ describe('Flight Routes', () => {
 
   it('should create a new booking', async () => {
     const bookingData = {
-      name: 'tamir',
+      name: 'arkadi',
       email: 'dddd',
       contactNumber: 'ddd',
       bookingDate: new Date('2024-12-3'),
