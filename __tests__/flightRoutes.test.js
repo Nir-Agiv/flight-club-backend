@@ -38,7 +38,7 @@ describe('Flight Routes', () => {
     const response = await request(app).post('/api/flights/search').send({
       departureCity: 'New York',
       destinationCity: 'London',
-      departureDate: new Date('2024-12-01'),
+      //departureDate: new Date('2024-12-01'),
       returnDate: new Date('2024-12-15'),
       passengers: 100,
     });
@@ -49,7 +49,7 @@ describe('Flight Routes', () => {
 
   it('should create a new booking', async () => {
     const bookingData = {
-      flightId: '12345', 
+      flightId: '12345',
       customerName: 'John Doe',
       passengers: 2,
     };
