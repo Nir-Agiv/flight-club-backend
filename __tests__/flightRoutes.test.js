@@ -11,7 +11,7 @@ describe('Flight Routes', () => {
   });
 
   afterAll(async () => {
-    // Close c MongoDB and server after all tests
+    // Close c MongoDhgB and server after all tests
     await mongoose.connection.close();
     if (server) {
       server.close();
@@ -22,7 +22,7 @@ describe('Flight Routes', () => {
     // Mock flight data
     const flight = new Flight({
       airline: 'Airline A',
-      flightNumber: 'A671',
+      flightNumber: 'A871',
       departureCity: 'New York',
       destinationCity: 'London',
       departureDate: new Date('2024-12-01'),
