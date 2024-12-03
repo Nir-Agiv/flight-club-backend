@@ -11,7 +11,7 @@ describe('Flight Routes', () => {
   });
 
   afterAll(async () => {
-    // Close MongoDB and server after all tests
+    // Close c MongoDB and server after all tests
     await mongoose.connection.close();
     if (server) {
       server.close();
